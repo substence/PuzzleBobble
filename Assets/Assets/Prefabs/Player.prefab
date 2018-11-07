@@ -9,19 +9,17 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1256917756149428}
+  m_RootGameObject: {fileID: 1482956038879694}
   m_IsPrefabParent: 1
---- !u!1 &1256917756149428
+--- !u!1 &1482956038879694
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4132247905424972}
-  - component: {fileID: 212434685995563792}
-  - component: {fileID: 114782752099235046}
-  - component: {fileID: 114819019044484372}
+  - component: {fileID: 4935034669161296}
+  - component: {fileID: 212004979858396558}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -29,12 +27,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4132247905424972
+--- !u!4 &4935034669161296
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1256917756149428}
+  m_GameObject: {fileID: 1482956038879694}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -42,55 +40,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114782752099235046
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1256917756149428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aabf11094ff7c114692418db9fecca54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &114819019044484372
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1256917756149428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 242
-    i1: 16
-    i2: 69
-    i3: 128
-    i4: 94
-    i5: 237
-    i6: 85
-    i7: 100
-    i8: 137
-    i9: 168
-    i10: 208
-    i11: 9
-    i12: 24
-    i13: 170
-    i14: 210
-    i15: 112
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
---- !u!212 &212434685995563792
+--- !u!212 &212004979858396558
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1256917756149428}
+  m_GameObject: {fileID: 1482956038879694}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
