@@ -6,7 +6,7 @@ public class PregameState : AState
 {
     public GameObject UIGO;
     private GameObject UIGOInstance;
-    private Button startButton;
+    protected Button startButton;
 
     public override void Enter(AState from)
     {
@@ -29,9 +29,18 @@ public class PregameState : AState
         }
     }
 
-    private void ClickedStartButton()
+    protected virtual void ClickedStartButton()
     {
-        manager.SwitchState("GameplayState");
+        startButton.enabled = false;
+        GameManagerNetwork.GetLocalPlayer().isReady = true;
+        if (GameManagerNetwork.AreAllPlayersReady())
+        {
+            manager.SwitchState("GameplayState");
+        }
+        else
+        {
+            GameStatusText.instance.SetText("Waiting for all players to be ready");
+        }
     }
 
     public override void Exit(AState to)

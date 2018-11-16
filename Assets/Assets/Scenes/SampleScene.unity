@@ -570,7 +570,7 @@ GameObject:
   - component: {fileID: 1327531718}
   - component: {fileID: 1327531717}
   - component: {fileID: 1327531720}
-  - component: {fileID: 1327531721}
+  - component: {fileID: 1327531722}
   m_Layer: 5
   m_Name: GameManager
   m_TagString: Untagged
@@ -605,6 +605,7 @@ MonoBehaviour:
   states:
   - {fileID: 1327531717}
   - {fileID: 1327531720}
+  - {fileID: 1327531722}
 --- !u!224 &1327531719
 RectTransform:
   m_ObjectHideFlags: 0
@@ -636,8 +637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   manager: {fileID: 0}
   goal: {fileID: 829458663}
-  player: {fileID: 0}
---- !u!114 &1327531721
+--- !u!114 &1327531722
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -645,10 +645,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1327531716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19fa4ebd0ac852f4da66780b7f824e5e, type: 3}
+  m_Script: {fileID: 11500000, guid: cb97ca4108f0ce14abb710c9a0f074a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  localPlayerGO: {fileID: 0}
+  manager: {fileID: 0}
+  UIGO: {fileID: 1985135817572808, guid: af40b362dd284ed4887b813de72981c1, type: 2}
 --- !u!1 &1640729630
 GameObject:
   m_ObjectHideFlags: 0
@@ -660,7 +661,6 @@ GameObject:
   - component: {fileID: 1640729633}
   - component: {fileID: 1640729632}
   - component: {fileID: 1640729631}
-  - component: {fileID: 1640729635}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -744,18 +744,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1640729635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1640729630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db953ee48e8ef104db3676ddcc7ed6c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  states: []
 --- !u!1 &1886336437
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,8 +777,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 300}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 0, y: 193.64}
+  m_SizeDelta: {x: 809.75, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1886336439
 MonoBehaviour:
@@ -824,7 +812,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Currenty playing with (0) players
 --- !u!222 &1886336440
 CanvasRenderer:
   m_ObjectHideFlags: 0

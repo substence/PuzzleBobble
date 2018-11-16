@@ -6,13 +6,13 @@ using UnityEngine.UI;
 public class GameplayState : AState
 {
     public GameObject goal;
-    public GameObject player;
+    private GameObject player;
 
     public override void Enter(AState from)
     {
         GameStatusText.instance.SetText("Currently playing (0) player(s)");
-        player = GameManager.instance.gameObject.GetComponent<GameManagerNetwork>().localPlayerGO;
-        //player = GetLocalPlayerGameObject();
+        //player = GameManager.instance.gameObject.GetComponent<GameManagerNetwork>().localPlayerGO;
+        player = GetLocalPlayerGameObject();
     }
 
     public GameObject GetLocalPlayerGameObject()
@@ -43,7 +43,7 @@ public class GameplayState : AState
     {
         if (player.transform.position.x >= goal.transform.position.x)
         {
-            manager.SwitchState("PregameState");
+            manager.SwitchState("EndGameState");
             //you won, transition to end game state
         }
     }
