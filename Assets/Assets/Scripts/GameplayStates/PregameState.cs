@@ -10,7 +10,7 @@ public class PregameState : AState
 
     public override void Enter(AState from)
     {
-        GameStatusText.instance.SetText("Waiting to start game. Players connected (" + GameManagerNetwork.GetNumberOfPlayers() + ")");
+        UpdateStatusText();
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas)
         {
@@ -32,8 +32,19 @@ public class PregameState : AState
 
     private void PlayerChanged()
     {
-        GameStatusText.instance.SetText("Waiting to start game. Players connected (" + GameManagerNetwork.GetNumberOfPlayers() + ")");
+        UpdateStatusText();
         AttemptGameStart();
+    }
+
+    private void UpdateStatusText()
+    {
+        String status = "Press button when ready.";
+        if (GameManagerNetwork.GetLocalPlayer().isReady)
+        {
+            status = "Waiting for other players to Ready";
+        }
+        status += "Players connected(" + GameManagerNetwork.GetNumberOfPlayers() + ")";
+        GameStatusText.instance.SetText(status);
     }
 
     protected virtual void ClickedStartButton()
@@ -51,7 +62,7 @@ public class PregameState : AState
         }
         else
         {
-            GameStatusText.instance.SetText("Waiting for all players to be ready");
+            UpdateStatusText();
         }
     }
 

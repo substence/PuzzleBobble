@@ -440,8 +440,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1106088924}
-  - component: {fileID: 1106088923}
   - component: {fileID: 1106088922}
+  - component: {fileID: 1106088923}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -472,7 +472,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1106088921}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -822479833, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Script: {fileID: 11500000, guid: c1b14cc7021130e4dae5be562b81c74e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_NetworkPort: 7777
@@ -812,7 +812,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Currenty playing with (0) players
+  m_Text: Click 'LAN Host' to start a new game or 'LAN Client' to join an existing
+    one.
 --- !u!222 &1886336440
 CanvasRenderer:
   m_ObjectHideFlags: 0

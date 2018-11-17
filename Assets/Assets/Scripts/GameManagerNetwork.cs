@@ -6,28 +6,61 @@ using UnityEngine.Networking;
 
 public class GameManagerNetwork : NetworkBehaviour
 {
-    public List<NetworkPlayer> players = new List<NetworkPlayer>();
-    public NetworkPlayer localPlayer;
+    //public List<NetworkPlayer> players = new List<NetworkPlayer>();
+    //public NetworkPlayer localPlayer;
     public GameObject localPlayerGO;
     public static UnityEvent playerChanged = new UnityEvent();
 
     private void Start()
     {
+        
     }
 
-    override public void OnStartLocalPlayer()
+    /*void OnDisconnectedFromServer(NetworkDisconnection info)
     {
+        //Debug.Log("Disconnected from server: " + info);
     }
 
-    override public void OnStartClient()
+    void OnPlayerDisconnected(NetworkPlayer player)
     {
-        //players.Add(player);
-        playerChanged.Invoke();
-        Debug.Log("on start client");
+       // Debug.Log("Clean up after player " + player);
+    }
+
+    void OnMasterServerEvent(MasterServerEvent MSE)
+    {
+        //Debug.Log("Clean up dsddsyer ");
     }
 
     public void OnPlayerConnected(NetworkPlayer player)
     {
+        //Debug.Log("Clean up OnPlayerConnected ");
+    }*/
+
+    override public void OnStartServer()
+    {
+        base.OnStartServer();
+        //Debug.Log("OnStartServer ");
+        playerChanged.Invoke();
+    }
+
+    override public void OnStartLocalPlayer()
+    {
+        base.OnStartLocalPlayer();
+        //Debug.Log("Clean up OnStartLocalPlayer ");
+    }
+
+    override public void OnStartClient()
+    {
+        base.OnStartClient();
+        //playerChanged.Invoke();
+       // Debug.Log("on start client");
+    }
+
+    public override void OnNetworkDestroy()
+    {
+        base.OnNetworkDestroy();
+       // Debug.Log("OnNetworkDestroy ");
+        playerChanged.Invoke();
     }
 
     public static int GetNumberOfPlayers()
