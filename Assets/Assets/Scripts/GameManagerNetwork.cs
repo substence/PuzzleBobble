@@ -30,9 +30,9 @@ public class GameManagerNetwork : NetworkBehaviour
     {
     }
 
-    int GetNumberOfPlayers()
+    public static int GetNumberOfPlayers()
     {
-        return players.Count;
+        return GetAllPlayers().Count;
     }
 
     public static bool AreAllPlayersReady()

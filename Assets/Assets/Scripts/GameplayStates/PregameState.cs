@@ -10,7 +10,7 @@ public class PregameState : AState
 
     public override void Enter(AState from)
     {
-        //GameStatusText.instance.SetText("Waiting to start game");
+        GameStatusText.instance.SetText("Waiting to start game. Players connected (" + GameManagerNetwork.GetNumberOfPlayers() + ")");
         GameObject canvas = GameObject.Find("Canvas");
         if (canvas)
         {
@@ -27,12 +27,24 @@ public class PregameState : AState
                 startButton.onClick.AddListener(ClickedStartButton);
             }
         }
+        GameManagerNetwork.playerChanged.AddListener(PlayerChanged);
+    }
+
+    private void PlayerChanged()
+    {
+        GameStatusText.instance.SetText("Waiting to start game. Players connected (" + GameManagerNetwork.GetNumberOfPlayers() + ")");
+        AttemptGameStart();
     }
 
     protected virtual void ClickedStartButton()
     {
         startButton.enabled = false;
         GameManagerNetwork.GetLocalPlayer().isReady = true;
+        AttemptGameStart();
+    }
+
+    private void AttemptGameStart()
+    {
         if (GameManagerNetwork.AreAllPlayersReady())
         {
             manager.SwitchState("GameplayState");
