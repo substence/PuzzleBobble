@@ -36,7 +36,7 @@ public class GameManagerNetwork : NetworkBehaviour
         //Debug.Log("Clean up OnPlayerConnected ");
     }*/
 
-    override public void OnStartServer()
+    /*override public void OnStartServer()
     {
         base.OnStartServer();
         //Debug.Log("OnStartServer ");
@@ -102,5 +102,5 @@ public class GameManagerNetwork : NetworkBehaviour
             }
         }        
         return null;
-    }
+    }*/
 }

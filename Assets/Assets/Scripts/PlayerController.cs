@@ -1,10 +1,29 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Networking;
 
 public class PlayerController : NetworkBehaviour
 {
+    public static UnityEvent readyStateChanged = new UnityEvent();
     [SyncVar]
-    public bool isReady = false;
+    private bool _isReady = false;
+    public bool isReady
+    {
+        get { return _isReady; }
+        set
+        {
+            _isReady = value;
+            //CmdReadyStateChanges(value);
+            //readyStateChanged.Invoke();
+        }
+    }
+
+    [Command]
+    void CmdReadyStateChanges(bool value)
+    {
+        //_isReady = value;
+        //readyStateChanged.Invoke();
+    }
 
     private void Start()
     {

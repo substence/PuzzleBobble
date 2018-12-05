@@ -27,10 +27,11 @@ public class PregameState : AState
                 startButton.onClick.AddListener(ClickedStartButton);
             }
         }
-        GameManagerNetwork.playerChanged.AddListener(PlayerChanged);
+        PuzzleBobbleNetworkManager.playerChanged.AddListener(PlayerStateChanged);
+        PlayerController.readyStateChanged.AddListener(PlayerStateChanged);
     }
 
-    private void PlayerChanged()
+    private void PlayerStateChanged()
     {
         UpdateStatusText();
         AttemptGameStart();
@@ -39,24 +40,24 @@ public class PregameState : AState
     private void UpdateStatusText()
     {
         String status = "Press button when ready.";
-        if (GameManagerNetwork.GetLocalPlayer().isReady)
+        if (PuzzleBobbleNetworkManager.GetLocalPlayer().isReady)
         {
             status = "Waiting for other players to Ready";
         }
-        status += "Players connected(" + GameManagerNetwork.GetNumberOfPlayers() + ")";
+        status += "Players connected(" + PuzzleBobbleNetworkManager.GetNumberOfPlayers() + ")";
         GameStatusText.instance.SetText(status);
     }
 
     protected virtual void ClickedStartButton()
     {
         startButton.enabled = false;
-        GameManagerNetwork.GetLocalPlayer().isReady = true;
+        PuzzleBobbleNetworkManager.GetLocalPlayer().isReady = true;
         AttemptGameStart();
     }
 
     private void AttemptGameStart()
     {
-        if (GameManagerNetwork.AreAllPlayersReady())
+        if (PuzzleBobbleNetworkManager.AreAllPlayersReady())
         {
             manager.SwitchState("GameplayState");
         }
@@ -76,6 +77,8 @@ public class PregameState : AState
         {
             startButton.onClick.RemoveListener(ClickedStartButton);
         }
+        PuzzleBobbleNetworkManager.playerChanged.RemoveListener(PlayerStateChanged);
+        PlayerController.readyStateChanged.RemoveListener(PlayerStateChanged);
         //throw new System.NotImplementedException();
     }
 
@@ -86,6 +89,8 @@ public class PregameState : AState
 
     public override void Tick()
     {
+        AttemptGameStart();
+        Debug.Log("pregame tick");
         //throw new System.NotImplementedException();
     }
 }
