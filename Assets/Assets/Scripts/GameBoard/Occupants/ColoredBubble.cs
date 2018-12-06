@@ -1,15 +1,6 @@
 ﻿using UnityEngine;
 using System;
 
-public class GridOccupantTypePool : MonoBehaviour
-{
-    public GameObject graphicGO;
-
-    public IGridOccupant GetRandomOccupant()
-    {
-        return new ColoredBubble(graphicGO, ColoredBubble.GetRandomColor());
-    }
-}
 public class ColoredBubble : GridOccupant, ILinkableOccupant
 {
     public enum BubbleColors
@@ -71,8 +62,4 @@ public class ColoredBubble : GridOccupant, ILinkableOccupant
         var length = Enum.GetValues(typeof(ColoredBubble.BubbleColors)).Length;
         return (BubbleColors)UnityEngine.Random.Range(1, length);
     }
-}
-public interface ILinkableOccupant
-{
-    bool doesLinkWith(ILinkableOccupant otherOccupant);
 }

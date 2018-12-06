@@ -30,7 +30,7 @@ public class GameBoard : MonoBehaviour
     //special method for moving things down so I can track if something is being pushed off the grid
     public bool PushDownOccupantAt(int x, int y)
     {
-        return MoveNodeFromTo(x,y, x+1, y);
+        return MoveNodeFromTo(x,y, x, y+1);
     }
 
     public bool MoveNodeFromTo(int fromX, int fromY, int toX, int toY, bool doesReplaceExistingOccupant = false)
