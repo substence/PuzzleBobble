@@ -65,7 +65,7 @@ public class GameBoard : MonoBehaviour
         {
             return null;
         }
-        Debug.Log("x " + x + ", y" + y);
+        //Debug.Log("x " + x + ", y" + y);
         return grid[x,y];
     }
 
