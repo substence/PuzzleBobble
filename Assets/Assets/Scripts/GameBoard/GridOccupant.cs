@@ -6,12 +6,7 @@ public class GridOccupant : IGridOccupant
     private int _y;
     private GameObject _graphic;
     [SerializeField]
-    private GameObject _graphicGO;
-
-    public GridOccupant(GameObject graphicGO)
-    {
-        _graphicGO = graphicGO;
-    }
+    protected GameObject _graphicGO;
 
     public int x
     {

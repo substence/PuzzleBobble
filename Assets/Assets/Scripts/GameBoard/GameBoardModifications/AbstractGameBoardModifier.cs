@@ -2,6 +2,7 @@
 
 public class AbstractGameBoardModifier : MonoBehaviour
 {
+    [SerializeField]
     protected GameBoard gameBoard;
 
     void Start()

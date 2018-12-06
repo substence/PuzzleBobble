@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameBoard : MonoBehaviour
 {
@@ -26,9 +27,26 @@ public class GameBoard : MonoBehaviour
         return true;
     }
 
+    //special method for moving things down so I can track if something is being pushed off the grid
+    public bool PushDownOccupantAt(int x, int y)
+    {
+        return MoveNodeFromTo(x,y, x+1, y);
+    }
+
+    public bool MoveNodeFromTo(int fromX, int fromY, int toX, int toY, bool doesReplaceExistingOccupant = false)
+    {
+        IGridOccupant occupant = GetOccupantAt(fromX, fromY);
+        if (occupant == null)
+        {
+            return false;
+        }
+        RemoveOccupantAt(fromX, fromY);
+        return AddOccupant(occupant, toX, toY, doesReplaceExistingOccupant);
+    }
+
     private Vector3 GetLocalPositionAt(int x, int y)
     {
-        return new Vector3(x * GRID_CELL_SIZE, y * GRID_CELL_SIZE, 0);
+        return new Vector3(x * GRID_CELL_SIZE, y * -GRID_CELL_SIZE, 0);
     }
 
     private void RemoveOccupantAt(int x, int y)
@@ -43,6 +61,11 @@ public class GameBoard : MonoBehaviour
 
     public IGridOccupant GetOccupantAt(int x, int y)
     {
+        if (x < 0 || y < 0 || x > WIDTH || y > HEIGHT)
+        {
+            return null;
+        }
+        Debug.Log("x " + x + ", y" + y);
         return grid[x,y];
     }
 

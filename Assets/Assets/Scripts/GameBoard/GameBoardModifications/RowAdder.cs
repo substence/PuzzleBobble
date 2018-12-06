@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[RequireComponent(typeof(GameBoardQueue), typeof(GridOccupantTypePool), typeof(GameBoard))]
 public class RowAdder : AbstractGameBoardModifier, IGameBoardModifier
 {
     [SerializeField]
@@ -44,18 +43,3 @@ public class RowAdder : AbstractGameBoardModifier, IGameBoardModifier
         }
     }
 }
-public class GameBoardQueue
-{
-    private List<IGridOccupant> queue;
-
-    public void AddToQueue(List<IGridOccupant> occupants)
-    {
-        queue.AddRange(occupants);
-    }
-
-    public void AddToQueue(IGridOccupant occupant)
-    {
-        queue.Add(occupant);
-    }
-}
-

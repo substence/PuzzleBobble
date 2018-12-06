@@ -13,10 +13,7 @@ public class UnitTests : MonoBehaviour
     void Start () {
         for (int i = 0; i < gameBoard.GetNumberOfCollumns(); i++)
         {
-            for (int j = 0; j < gameBoard.GetNumberOfRows(); j++)
-            {
-                gameBoard.AddOccupant(new GridOccupant(testGameObject), i, j);
-            }
+            gameBoard.AddOccupant(new ColoredBubble(testGameObject,ColoredBubble.GetRandomColor()), i, 0);
         }
 	}
 	
