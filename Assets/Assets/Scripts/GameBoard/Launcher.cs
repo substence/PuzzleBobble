@@ -4,6 +4,8 @@ public class Launcher : MonoBehaviour
 {
     [SerializeField]
     private GridOccupantTypePool pool;
+    [SerializeField]
+    private GameBoard gameBoard;
     private GameObject launchee;
 
     void Start()
@@ -18,11 +20,9 @@ public class Launcher : MonoBehaviour
     void Load()
     {
         launchee = pool.GetRandomOccupant().graphic;
-        Rigidbody2D body = launchee.GetComponent<Rigidbody2D>();
-        body.isKinematic = true;
-        Collider2D collider = launchee.GetComponent<Collider2D>();
-        collider.isTrigger = true;
-        launchee.transform.SetParent(transform, false);
+        SetKinematicAndTrigger(launchee, true);
+        launchee.transform.SetParent(pool.gameObject.transform);
+        launchee.transform.SetPositionAndRotation(transform.position, launchee.transform.rotation);
     }
 
     // Update is called once per frame
@@ -43,14 +43,51 @@ public class Launcher : MonoBehaviour
     {
         if (launchee)
         {
+            SetKinematicAndTrigger(launchee, false);
             Rigidbody2D body = launchee.GetComponent<Rigidbody2D>();
-            body.isKinematic = false;
             body.AddForce(gameObject.transform.up * 1000.0f);
-            //body.AddForce(Vector2.up * 1000.0f);
-
-            Collider2D collider = launchee.GetComponent<Collider2D>();
-            collider.isTrigger = false;
+            SnapToGridOnCollision stopOnCollision = launchee.AddComponent<SnapToGridOnCollision>();
+            stopOnCollision.gameBoard = gameBoard;
             Load();
+        }
+    }
+
+    void SetKinematicAndTrigger(GameObject target, bool value)
+    {
+        Rigidbody2D body = target.GetComponent<Rigidbody2D>();
+        body.isKinematic = value;
+        Collider2D collider = target.GetComponent<Collider2D>();
+        collider.isTrigger = value;
+    }
+}
+class SnapToGridOnCollision : MonoBehaviour
+{
+    public GameBoard gameBoard;
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        OnCollision(collision.gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        OnCollision(collision.gameObject);
+    }
+
+    private void OnCollision(GameObject collidedGameObject)
+    {
+        IGridOccupant occupant = GridOccupant.GetOccupantFromGameObject(gameObject);
+        if (occupant != null && gameBoard)
+        {
+            Vector2 targetPoint = GameBoard.GetClosestNodeToPoint(transform.position);
+            Rigidbody2D body = GetComponent<Rigidbody2D>();
+            body.velocity = Vector2.zero;
+            body.isKinematic = true;
+            //targetPoint = new Vector2(Mathf.RoundToInt(targetPoint.x), Mathf.RoundToInt(targetPoint.y));
+            //body.MovePosition(new Vector2(targetPoint.x, targetPoint.y));
+            gameBoard.AddOccupant(occupant, Mathf.RoundToInt(targetPoint.x), Mathf.RoundToInt(targetPoint.y));
+            gameBoard = null;
+            Destroy(this);
         }
     }
 }

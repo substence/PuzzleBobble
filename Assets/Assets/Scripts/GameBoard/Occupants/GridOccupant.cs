@@ -30,6 +30,12 @@ public class GridOccupant : IGridOccupant
             if (_graphic == null)
             {
                 _graphic = GameObject.Instantiate(_graphicGO);
+
+                GridOccupantLink link = _graphic.AddComponent<GridOccupantLink>();
+                link.gridOccupant = this;
+
+                Rigidbody2D body = _graphic.GetComponent<Rigidbody2D>();
+                body.isKinematic = true;
             }
             return _graphic;
         }
@@ -40,4 +46,22 @@ public class GridOccupant : IGridOccupant
         _x = x;
         _y = y;
     }
+
+    //Not sure if I want GridOccupant to be a component
+    public static IGridOccupant GetOccupantFromGameObject(GameObject gameObject)
+    {
+        //return gameObject.GetComponent<GridOccupant>();
+        GridOccupantLink link = gameObject.GetComponent<GridOccupantLink>();
+        if (link)
+        {
+            return link.gridOccupant;
+        }
+        return null;
+    }
+}
+
+//A component put on the graphic's GameObject to link back to the GridOccupant
+public class GridOccupantLink : MonoBehaviour
+{
+    public IGridOccupant gridOccupant;
 }

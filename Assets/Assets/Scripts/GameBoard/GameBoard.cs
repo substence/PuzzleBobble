@@ -23,7 +23,16 @@ public class GameBoard : MonoBehaviour
         grid[x, y] = occupant;
         occupant.SetPosition(x, y);
         occupant.graphic.transform.SetParent(transform);
-        occupant.graphic.transform.SetPositionAndRotation(GetLocalPositionAt(x,y), occupant.graphic.transform.rotation);
+        Vector3 localPosition = GetLocalPositionAt(x, y);
+        Rigidbody2D rigidBody2D = occupant.graphic.GetComponent<Rigidbody2D>();
+        if (rigidBody2D)
+        {
+            rigidBody2D.MovePosition(localPosition);
+        }
+        else
+        {
+            occupant.graphic.transform.SetPositionAndRotation(localPosition, occupant.graphic.transform.rotation);
+        }
         return true;
     }
 
@@ -57,6 +66,11 @@ public class GameBoard : MonoBehaviour
             existingOccupant.graphic.transform.SetParent(null);
         }
         grid[x, y] = null;
+    }
+
+    internal static Vector2 GetClosestNodeToPoint(Vector3 position)
+    {
+        return new Vector2(Mathf.RoundToInt(position.x / GRID_CELL_SIZE), Mathf.RoundToInt(position.y / GRID_CELL_SIZE) * -1);
     }
 
     public IGridOccupant GetOccupantAt(int x, int y)

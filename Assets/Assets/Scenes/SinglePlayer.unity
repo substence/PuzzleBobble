@@ -481,7 +481,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 653616717}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e885e614759edaa4ebe81435cf21c92a, type: 3}
   m_Name: 
@@ -863,6 +863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pool: {fileID: 653616722}
+  gameBoard: {fileID: 653616720}
 --- !u!1 &1821503025
 GameObject:
   m_ObjectHideFlags: 0
