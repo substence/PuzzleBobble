@@ -57,7 +57,8 @@ public class Launcher : MonoBehaviour
         Rigidbody2D body = target.GetComponent<Rigidbody2D>();
         body.isKinematic = value;
         Collider2D collider = target.GetComponent<Collider2D>();
-        collider.isTrigger = value;
+        //collider.isTrigger = value;
+        collider.enabled = !value;
     }
 }
 class SnapToGridOnCollision : MonoBehaviour
@@ -69,16 +70,17 @@ class SnapToGridOnCollision : MonoBehaviour
         OnCollision(collision.gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        OnCollision(collision.gameObject);
+        OnCollision(collider.gameObject);
     }
 
     private void OnCollision(GameObject collidedGameObject)
     {
-        IGridOccupant occupant = GridOccupant.GetOccupantFromGameObject(gameObject);
-        if (occupant != null && gameBoard)
+        IGridOccupant collidedOccupant = GridOccupant.GetOccupantFromGameObject(collidedGameObject);
+        if (collidedOccupant != null && gameBoard)
         {
+            IGridOccupant occupant = GridOccupant.GetOccupantFromGameObject(gameObject);
             Vector2 targetPoint = GameBoard.GetClosestNodeToPoint(transform.position);
             Rigidbody2D body = GetComponent<Rigidbody2D>();
             body.velocity = Vector2.zero;

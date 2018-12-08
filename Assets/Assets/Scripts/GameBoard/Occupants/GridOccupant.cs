@@ -33,18 +33,25 @@ public class GridOccupant : IGridOccupant
 
                 GridOccupantLink link = _graphic.AddComponent<GridOccupantLink>();
                 link.gridOccupant = this;
-
-                Rigidbody2D body = _graphic.GetComponent<Rigidbody2D>();
-                body.isKinematic = true;
             }
             return _graphic;
         }
     }
 
-    public void SetPosition(int x, int y)
+    public void Slotted(bool value, int x = 0, int y = 0)
     {
         _x = x;
         _y = y;
+        Lock(value);
+    }
+
+    private void Lock(bool value)
+    {
+        Rigidbody2D body = graphic.GetComponent<Rigidbody2D>();
+        body.isKinematic = value;
+
+        Collider2D collider = graphic.GetComponent<Collider2D>();
+        collider.isTrigger = value;
     }
 
     //Not sure if I want GridOccupant to be a component

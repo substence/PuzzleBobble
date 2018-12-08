@@ -5,5 +5,5 @@ public interface IGridOccupant
     int x { get; }
     int y { get; }
     GameObject graphic { get; }
-    void SetPosition(int x, int y);
+    void Slotted(bool value, int x = 0, int y = 0);
 }

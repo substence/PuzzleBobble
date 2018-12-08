@@ -21,7 +21,7 @@ public class GameBoard : MonoBehaviour
         }
         RemoveOccupantAt(x, y);
         grid[x, y] = occupant;
-        occupant.SetPosition(x, y);
+        occupant.Slotted(true, x, y);
         occupant.graphic.transform.SetParent(transform);
         Vector3 localPosition = GetLocalPositionAt(x, y);
         Rigidbody2D rigidBody2D = occupant.graphic.GetComponent<Rigidbody2D>();
@@ -61,9 +61,13 @@ public class GameBoard : MonoBehaviour
     private void RemoveOccupantAt(int x, int y)
     {
         IGridOccupant existingOccupant = GetOccupantAt(x, y);
-        if (existingOccupant != null && existingOccupant.graphic != null)
+        if (existingOccupant != null)
         {
-            existingOccupant.graphic.transform.SetParent(null);
+            existingOccupant.Slotted(false);
+            if (existingOccupant.graphic != null)
+            {
+                existingOccupant.graphic.transform.SetParent(null);
+            }
         }
         grid[x, y] = null;
     }
