@@ -1,4 +1,4 @@
-﻿public interface ILinkableOccupant
+﻿public interface IMatchableOccupant
 {
-    bool doesLinkWith(ILinkableOccupant otherOccupant);
+    bool doesMatchWith(IMatchableOccupant otherOccupant);
 }

@@ -1,8 +1,12 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameBoard : MonoBehaviour
 {
+    //public UnityEvent<IGridOccupant> addedOccupant = new UnityEvent<IGridOccupant>();
+    public event Action<IGridOccupant> AddedOccupantAction;// = new UnityEvent<IGridOccupant>();\
+
     [SerializeField]
     private static int WIDTH = 10;
     [SerializeField]
@@ -33,6 +37,10 @@ public class GameBoard : MonoBehaviour
         {
             occupant.graphic.transform.SetPositionAndRotation(localPosition, occupant.graphic.transform.rotation);
         }
+        if (AddedOccupantAction != null)
+        {
+            AddedOccupantAction(occupant);
+        }
         return true;
     }
 
@@ -58,7 +66,7 @@ public class GameBoard : MonoBehaviour
         return new Vector3(x * GRID_CELL_SIZE, y * -GRID_CELL_SIZE, 0);
     }
 
-    private void RemoveOccupantAt(int x, int y)
+    public void RemoveOccupantAt(int x, int y)
     {
         IGridOccupant existingOccupant = GetOccupantAt(x, y);
         if (existingOccupant != null)

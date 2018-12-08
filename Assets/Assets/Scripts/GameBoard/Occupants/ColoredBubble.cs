@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
-public class ColoredBubble : GridOccupant, ILinkableOccupant
+public class ColoredBubble : GridOccupant, IMatchableOccupant
 {
     public enum BubbleColors
     {
@@ -48,7 +48,7 @@ public class ColoredBubble : GridOccupant, ILinkableOccupant
         }
     }
 
-    public bool doesLinkWith(ILinkableOccupant otherOccupant)
+    public bool doesMatchWith(IMatchableOccupant otherOccupant)
     {
         if (color != BubbleColors.INVALID && otherOccupant is ColoredBubble && (otherOccupant as ColoredBubble).color == color)
         {

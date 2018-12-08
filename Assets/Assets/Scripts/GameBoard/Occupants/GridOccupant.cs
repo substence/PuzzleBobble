@@ -52,6 +52,11 @@ public class GridOccupant : IGridOccupant
 
         Collider2D collider = graphic.GetComponent<Collider2D>();
         collider.isTrigger = value;
+
+        if (value)
+        {
+            body.velocity = Vector2.zero;
+        }
     }
 
     //Not sure if I want GridOccupant to be a component
