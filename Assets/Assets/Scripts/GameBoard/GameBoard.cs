@@ -4,8 +4,8 @@ using UnityEngine.Events;
 
 public class GameBoard : MonoBehaviour
 {
-    //public UnityEvent<IGridOccupant> addedOccupant = new UnityEvent<IGridOccupant>();
-    public event Action<IGridOccupant> AddedOccupantAction;// = new UnityEvent<IGridOccupant>();\
+    public event Action<IGridOccupant> AddedOccupant;
+    public event Action<IGridOccupant> RemovedOccupant;
 
     [SerializeField]
     private static int WIDTH = 10;
@@ -37,9 +37,9 @@ public class GameBoard : MonoBehaviour
         {
             occupant.graphic.transform.SetPositionAndRotation(localPosition, occupant.graphic.transform.rotation);
         }
-        if (AddedOccupantAction != null)
+        if (AddedOccupant != null)
         {
-            AddedOccupantAction(occupant);
+            AddedOccupant(occupant);
         }
         return true;
     }
@@ -76,6 +76,10 @@ public class GameBoard : MonoBehaviour
             {
                 existingOccupant.graphic.transform.SetParent(null);
             }
+            if (RemovedOccupant != null)
+            {
+                RemovedOccupant(existingOccupant);
+            }
         }
         grid[x, y] = null;
     }
@@ -87,7 +91,7 @@ public class GameBoard : MonoBehaviour
 
     public IGridOccupant GetOccupantAt(int x, int y)
     {
-        if (x < 0 || y < 0 || x > WIDTH || y > HEIGHT)
+        if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
         {
             return null;
         }

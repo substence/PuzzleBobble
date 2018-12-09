@@ -9,7 +9,7 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
 
     void Start()
     {
-        gameBoard.AddedOccupantAction += GameBoard_AddedOccupantAction;
+        gameBoard.AddedOccupant += GameBoard_AddedOccupantAction;
     }
 
     private void GameBoard_AddedOccupantAction(IGridOccupant obj)
@@ -29,6 +29,8 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
 
     public static List<IGridOccupant> GetMatchesAroundForOccupant(IGridOccupant occupant, GameBoard gameBoard)
     {
+        int timeout = 500;
+
         List<IGridOccupant> matches = new List<IGridOccupant>();
         IMatchableOccupant matchableOccupant = occupant as IMatchableOccupant;
 
@@ -38,18 +40,37 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
         }
 
         List<IGridOccupant> nodesToCheck = GetNeighboringOccupants(occupant, gameBoard);
-
-        while(nodesToCheck.Count > 0)
+        List<IGridOccupant> checkedNodes = new List<IGridOccupant>();
+        matches.Add(occupant);
+        
+        while(nodesToCheck.Count > 0 && timeout > 0)
         {
+            timeout--;
             IGridOccupant nodeToCheck = nodesToCheck[0];
+            checkedNodes.Add(nodeToCheck);
             nodesToCheck.RemoveAt(0);
-            if (nodeToCheck is IMatchableOccupant && (matchableOccupant as IMatchableOccupant).doesMatchWith(matchableOccupant))
+            if (nodeToCheck is IMatchableOccupant && (nodeToCheck as IMatchableOccupant).doesMatchWith(matchableOccupant))
             {
                 List<IGridOccupant> matchingOccupantsNeighbors = GetNeighboringOccupants(nodeToCheck, gameBoard);
+                matchingOccupantsNeighbors = RemoveOccupantsFoundInList(matchingOccupantsNeighbors, checkedNodes);
                 nodesToCheck = mergeListsWithoutDuplicates(nodesToCheck, matchingOccupantsNeighbors);
+                matches.Add(nodeToCheck);
             }
         }
         return matches;
+    }
+
+    private static List<IGridOccupant> RemoveOccupantsFoundInList(List<IGridOccupant> x, List<IGridOccupant> y)
+    {
+        for (int i = x.Count - 1; i >= 0; i--)
+        {
+            IGridOccupant occupant = x[i];
+            if (y.Contains(occupant))
+            {
+                x.Remove(occupant);
+            }
+        }
+        return x;
     }
 
     private static List<IGridOccupant> mergeListsWithoutDuplicates(List<IGridOccupant> x, List<IGridOccupant> y)
@@ -75,11 +96,22 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
         matches.Add(gameBoard.GetOccupantAt(x + 1, y));
         matches.Add(gameBoard.GetOccupantAt(x + 1, y + 1));
 
+        //todo this will be removed when i cache neighbors
+        //remove null opccupants
+        for (int i = matches.Count - 1; i >= 0; i--)
+        {
+            IGridOccupant potentiallyNullOccupant = matches[i];
+            if (potentiallyNullOccupant == null)
+            {
+                matches.Remove(potentiallyNullOccupant);
+            }
+        }
+
         return matches;
     }
 
     private void OnDestroy()
     {
-        gameBoard.AddedOccupantAction -= GameBoard_AddedOccupantAction;
+        gameBoard.AddedOccupant -= GameBoard_AddedOccupantAction;
     }
 }
