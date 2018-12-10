@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -68,6 +69,10 @@ public class GameBoard : MonoBehaviour
 
     public void RemoveOccupantAt(int x, int y)
     {
+        if (IsIndexOutOfBounds(x,y))
+        {
+            return;
+        }
         IGridOccupant existingOccupant = GetOccupantAt(x, y);
         if (existingOccupant != null)
         {
@@ -84,6 +89,11 @@ public class GameBoard : MonoBehaviour
         grid[x, y] = null;
     }
 
+    private bool IsIndexOutOfBounds(int x, int y)
+    {
+        return x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT;
+    }
+
     internal static Vector2 GetClosestNodeToPoint(Vector3 position)
     {
         return new Vector2(Mathf.RoundToInt(position.x / GRID_CELL_SIZE), Mathf.RoundToInt(position.y / GRID_CELL_SIZE) * -1);
@@ -91,12 +101,27 @@ public class GameBoard : MonoBehaviour
 
     public IGridOccupant GetOccupantAt(int x, int y)
     {
-        if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
+        if (IsIndexOutOfBounds(x,y))
         {
             return null;
         }
         //Debug.Log("x " + x + ", y" + y);
         return grid[x,y];
+    }
+
+    public List<IGridOccupant> GetAllOccupants()
+    {
+        List<IGridOccupant> occupants = new List<IGridOccupant>();
+
+        for (int i = 0; i < WIDTH; i++)
+        {
+            for (int j = 0; j < HEIGHT; j++)
+            {
+                occupants.Add(GetOccupantAt(i, j));
+            }
+        }
+
+        return occupants;
     }
 
     public int GetNumberOfRows(){ return WIDTH; }

@@ -10,10 +10,18 @@ public class UnitTests : MonoBehaviour
     private GameObject testGameObject;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        // fill half the board with random colors and random gaps
         for (int i = 0; i < gameBoard.GetNumberOfCollumns(); i++)
         {
-            gameBoard.AddOccupant(new ColoredBubble(testGameObject,ColoredBubble.GetRandomColor()), i, 0);
+            for (int j = 0; j < gameBoard.GetNumberOfRows() * .5; j++)
+            {
+                if (Random.Range(0, 100) >= 50)
+                {
+                    gameBoard.AddOccupant(new ColoredBubble(testGameObject, ColoredBubble.GetRandomColor()), j, i);
+                }
+            }
         }
 	}
 	

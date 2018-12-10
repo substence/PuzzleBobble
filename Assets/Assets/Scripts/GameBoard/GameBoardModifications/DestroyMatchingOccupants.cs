@@ -7,6 +7,19 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
     [SerializeField]
     private int amountOfMatchesForDestruction = 3;
 
+    public int AmountOfMatchesForDestruction
+    {
+        get
+        {
+            return amountOfMatchesForDestruction;
+        }
+
+        set
+        {
+            amountOfMatchesForDestruction = value;
+        }
+    }
+
     void Start()
     {
         gameBoard.AddedOccupant += GameBoard_AddedOccupantAction;
@@ -39,7 +52,7 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
             return matches;
         }
 
-        List<IGridOccupant> nodesToCheck = GetNeighboringOccupants(occupant, gameBoard);
+        List<IGridOccupant> nodesToCheck = GameBoardUtilities.GetNeighboringOccupants(occupant, gameBoard);
         List<IGridOccupant> checkedNodes = new List<IGridOccupant>();
         matches.Add(occupant);
         
@@ -51,7 +64,7 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
             nodesToCheck.RemoveAt(0);
             if (nodeToCheck is IMatchableOccupant && (nodeToCheck as IMatchableOccupant).doesMatchWith(matchableOccupant))
             {
-                List<IGridOccupant> matchingOccupantsNeighbors = GetNeighboringOccupants(nodeToCheck, gameBoard);
+                List<IGridOccupant> matchingOccupantsNeighbors = GameBoardUtilities.GetNeighboringOccupants(nodeToCheck, gameBoard);
                 matchingOccupantsNeighbors = RemoveOccupantsFoundInList(matchingOccupantsNeighbors, checkedNodes);
                 nodesToCheck = mergeListsWithoutDuplicates(nodesToCheck, matchingOccupantsNeighbors);
                 matches.Add(nodeToCheck);
@@ -78,7 +91,14 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
         return x.Union(y).ToList();
     }
 
-    private static List<IGridOccupant> GetNeighboringOccupants(IGridOccupant occupant, GameBoard gameBoard)
+    private void OnDestroy()
+    {
+        gameBoard.AddedOccupant -= GameBoard_AddedOccupantAction;
+    }
+}
+public class GameBoardUtilities
+{
+    public static List<IGridOccupant> GetNeighboringOccupants(IGridOccupant occupant, GameBoard gameBoard)
     {
         List<IGridOccupant> matches = new List<IGridOccupant>();
         int x = occupant.x;
@@ -89,7 +109,7 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
         matches.Add(gameBoard.GetOccupantAt(x - 1, y + 1));
 
         matches.Add(gameBoard.GetOccupantAt(x, y - 1));
-        matches.Add(gameBoard.GetOccupantAt(x,      y));
+        matches.Add(gameBoard.GetOccupantAt(x, y));
         matches.Add(gameBoard.GetOccupantAt(x, y + 1));
 
         matches.Add(gameBoard.GetOccupantAt(x + 1, y - 1));
@@ -108,10 +128,5 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
         }
 
         return matches;
-    }
-
-    private void OnDestroy()
-    {
-        gameBoard.AddedOccupant -= GameBoard_AddedOccupantAction;
     }
 }

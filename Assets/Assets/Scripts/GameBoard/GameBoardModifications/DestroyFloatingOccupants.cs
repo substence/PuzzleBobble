@@ -20,11 +20,57 @@ public class DestroyFloatingOccupants : AbstractGameBoardModifier, IGameBoardMod
 
     public static List<IGridOccupant> GetAllUnanchoredOccupants(GameBoard gameBoard)
     {
-        List<IGridOccupant> unanchoredOccupants = new List<IGridOccupant>();
+        //Get all anchor occupants (occupants attached to the top of the grid)
+        List<IGridOccupant> anchors = new List<IGridOccupant>();
+        for (int i = 0; i < gameBoard.GetNumberOfCollumns(); i++)
+        {
+            IGridOccupant occupant = gameBoard.GetOccupantAt(i, 0);
+            if (occupant != null)
+            {
+                anchors.Add(occupant);
+            }
+        }
+
+        //Get a list of all anchored occupants
+        List<IGridOccupant> anchoredOccupants = new List<IGridOccupant>();
+        for (int j = 0; j < anchors.Count; j++)
+        {
+            AddAnchoredOccupantsToList(gameBoard, anchors[j], anchoredOccupants);
+        }
+
+        //Get a list of all occupants and remove all anchored occupants from that list, leaving only the unanchored occupants
+        List<IGridOccupant> unanchoredOccupants = gameBoard.GetAllOccupants();
+        for (int ii = unanchoredOccupants.Count - 1; ii > 0; ii--)
+        {
+            IGridOccupant occupant = unanchoredOccupants[ii];
+            if (occupant == null || anchoredOccupants.Contains(occupant))
+            {
+                unanchoredOccupants.Remove(occupant);
+            }
+        }
 
         return unanchoredOccupants;
     }
-    
+
+    private static void AddAnchoredOccupantsToList(GameBoard gameBoard, IGridOccupant anchor, List<IGridOccupant> anchoredOccupants)
+    {
+        if (anchor != null && !anchoredOccupants.Contains(anchor))
+        {
+            anchoredOccupants.Add(anchor);
+
+            List<IGridOccupant> neighbors = GameBoardUtilities.GetNeighboringOccupants(anchor, gameBoard);
+            for (int jj = 0; jj < neighbors.Count; jj++)
+            {
+                IGridOccupant neighbor = neighbors[jj];
+                if (neighbor != null && !anchoredOccupants.Contains(neighbor))
+                {
+                    //anchoredOccupants.Add(neighbor);
+                    AddAnchoredOccupantsToList(gameBoard, neighbor, anchoredOccupants);
+                }
+            }
+        }
+    }
+
     //make all the unwanted occupants 'fall' off the grid
     public static void RemoveFloatingOccupants(List<IGridOccupant> occupantsToRemove, float  destroyDelay)
     {
