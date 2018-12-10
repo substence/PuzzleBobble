@@ -15,7 +15,7 @@ public class DestroyFloatingOccupants : AbstractGameBoardModifier, IGameBoardMod
 
     private void GameBoard_RemovedOccupant(IGridOccupant obj)
     {
-        RemoveFloatingOccupants(GetAllUnanchoredOccupants(gameBoard), DESTROY_DELAY);
+        RemoveFloatingOccupants(GetAllUnanchoredOccupants(gameBoard), gameBoard, DESTROY_DELAY);
     }
 
     public static List<IGridOccupant> GetAllUnanchoredOccupants(GameBoard gameBoard)
@@ -40,7 +40,7 @@ public class DestroyFloatingOccupants : AbstractGameBoardModifier, IGameBoardMod
 
         //Get a list of all occupants and remove all anchored occupants from that list, leaving only the unanchored occupants
         List<IGridOccupant> unanchoredOccupants = gameBoard.GetAllOccupants();
-        for (int ii = unanchoredOccupants.Count - 1; ii > 0; ii--)
+        for (int ii = unanchoredOccupants.Count - 1; ii >= 0; ii--)
         {
             IGridOccupant occupant = unanchoredOccupants[ii];
             if (occupant == null || anchoredOccupants.Contains(occupant))
@@ -72,7 +72,7 @@ public class DestroyFloatingOccupants : AbstractGameBoardModifier, IGameBoardMod
     }
 
     //make all the unwanted occupants 'fall' off the grid
-    public static void RemoveFloatingOccupants(List<IGridOccupant> occupantsToRemove, float  destroyDelay)
+    public static void RemoveFloatingOccupants(List<IGridOccupant> occupantsToRemove, GameBoard gameBoard, float  destroyDelay)
     {
         for (int i = 0; i < occupantsToRemove.Count; i++)
         {
@@ -86,6 +86,10 @@ public class DestroyFloatingOccupants : AbstractGameBoardModifier, IGameBoardMod
                 //ensure rigidbody is kinematic so it falls with gravity
                 Rigidbody2D rigidBody = occupantToRemove.graphic.GetComponent<Rigidbody2D>();
                 rigidBody.isKinematic = false;
+                rigidBody.gravityScale = 1;
+
+                //Remove from board
+                gameBoard.RemoveOccupantAt(occupantToRemove.x, occupantToRemove.y);
 
                 //set a death timer
                 Destroy(occupantToRemove.graphic, destroyDelay);

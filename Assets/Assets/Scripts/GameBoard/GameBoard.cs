@@ -81,12 +81,12 @@ public class GameBoard : MonoBehaviour
             {
                 existingOccupant.graphic.transform.SetParent(null);
             }
-            if (RemovedOccupant != null)
-            {
-                RemovedOccupant(existingOccupant);
-            }
         }
         grid[x, y] = null;
+        if (existingOccupant != null && RemovedOccupant != null)
+        {
+            RemovedOccupant(existingOccupant);
+        }
     }
 
     private bool IsIndexOutOfBounds(int x, int y)

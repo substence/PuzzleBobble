@@ -62,4 +62,9 @@ public class ColoredBubble : GridOccupant, IMatchableOccupant
         var length = Enum.GetValues(typeof(ColoredBubble.BubbleColors)).Length;
         return (BubbleColors)UnityEngine.Random.Range(1, length);
     }
+
+    public override string ToString()
+    {
+        return base.ToString() + "color : " + color;
+    }
 }

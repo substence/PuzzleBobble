@@ -32,6 +32,10 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
         {
             return;
         }
+        if (matchingOccupants.Count >=2)
+        {
+            Debug.Log("destroying 2 matching occupants");
+        }
         for (int i = 0; i < matchingOccupants.Count; i++)
         {
             IGridOccupant occupant = matchingOccupants[i];
@@ -52,6 +56,8 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
             return matches;
         }
 
+        Debug.Log("Searching for matches around occupant " + occupant);
+
         List<IGridOccupant> nodesToCheck = GameBoardUtilities.GetNeighboringOccupants(occupant, gameBoard);
         List<IGridOccupant> checkedNodes = new List<IGridOccupant>();
         matches.Add(occupant);
@@ -64,6 +70,7 @@ public class DestroyMatchingOccupants : AbstractGameBoardModifier, IGameBoardMod
             nodesToCheck.RemoveAt(0);
             if (nodeToCheck is IMatchableOccupant && (nodeToCheck as IMatchableOccupant).doesMatchWith(matchableOccupant))
             {
+                Debug.Log("Found match for " + occupant + " with " + nodeToCheck);
                 List<IGridOccupant> matchingOccupantsNeighbors = GameBoardUtilities.GetNeighboringOccupants(nodeToCheck, gameBoard);
                 matchingOccupantsNeighbors = RemoveOccupantsFoundInList(matchingOccupantsNeighbors, checkedNodes);
                 nodesToCheck = mergeListsWithoutDuplicates(nodesToCheck, matchingOccupantsNeighbors);
@@ -109,7 +116,7 @@ public class GameBoardUtilities
         matches.Add(gameBoard.GetOccupantAt(x - 1, y + 1));
 
         matches.Add(gameBoard.GetOccupantAt(x, y - 1));
-        matches.Add(gameBoard.GetOccupantAt(x, y));
+        //matches.Add(gameBoard.GetOccupantAt(x, y));
         matches.Add(gameBoard.GetOccupantAt(x, y + 1));
 
         matches.Add(gameBoard.GetOccupantAt(x + 1, y - 1));
