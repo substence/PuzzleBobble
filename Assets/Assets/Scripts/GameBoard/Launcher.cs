@@ -6,6 +6,9 @@ public class Launcher : MonoBehaviour
     private GridOccupantTypePool pool;
     [SerializeField]
     private GameBoard gameBoard;
+    [SerializeField]
+    private const float force = 1000.0f;
+
     private GameObject launchee;
 
     void Start()
@@ -29,7 +32,10 @@ public class Launcher : MonoBehaviour
     void Update ()
     {
         Vector3 mousePosition = Input.mousePosition;
-        //mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        mousePosition.z = 10;
+        //Debug.Log("raw mouse position " + mousePosition);
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        //Debug.Log("converted mouse position " + mousePosition);
         Vector2 direction = new Vector2(mousePosition.x - transform.position.x, 
                                         mousePosition.y - transform.position.y);
         transform.up = direction;
@@ -45,7 +51,7 @@ public class Launcher : MonoBehaviour
         {
             SetKinematicAndTrigger(launchee, false);
             Rigidbody2D body = launchee.GetComponent<Rigidbody2D>();
-            body.AddForce(gameObject.transform.up * 1000.0f);
+            body.AddForce(gameObject.transform.up * force);
             SnapToGridOnCollision stopOnCollision = launchee.AddComponent<SnapToGridOnCollision>();
             stopOnCollision.gameBoard = gameBoard;
             Load();
@@ -77,15 +83,10 @@ class SnapToGridOnCollision : MonoBehaviour
     private void OnCollision(GameObject collidedGameObject)
     {
         IGridOccupant collidedOccupant = GridOccupant.GetOccupantFromGameObject(collidedGameObject);
-        if (collidedOccupant != null && gameBoard)
+        if (gameBoard && (collidedOccupant != null || collidedGameObject == gameBoard.Ceiling))
         {
             IGridOccupant occupant = GridOccupant.GetOccupantFromGameObject(gameObject);
             Vector2 targetPoint = GameBoard.GetClosestNodeToPoint(transform.position);
-            //Rigidbody2D body = GetComponent<Rigidbody2D>();
-            //body.velocity = Vector2.zero;
-            //body.isKinematic = true;
-            //targetPoint = new Vector2(Mathf.RoundToInt(targetPoint.x), Mathf.RoundToInt(targetPoint.y));
-            //body.MovePosition(new Vector2(targetPoint.x, targetPoint.y));
             gameBoard.AddOccupant(occupant, Mathf.RoundToInt(targetPoint.x), Mathf.RoundToInt(targetPoint.y));
             gameBoard = null;
             Destroy(this);

@@ -14,6 +14,15 @@ public class GameBoard : MonoBehaviour
     private static int HEIGHT = 10;
     [SerializeField]
     private static int GRID_CELL_SIZE = 1;
+    [SerializeField]
+    private GameObject ceiling;
+    public GameObject Ceiling
+    {
+        get
+        {
+            return ceiling;
+        }
+    }
 
     private IGridOccupant[,] grid = new GridOccupant[WIDTH, HEIGHT];
 

@@ -15,14 +15,22 @@ public class DestroyFloatingOccupantsTestPreset : GameBoardPreset
         //Create a few bubbles in the center of the board
         for (int i = 0; i < gameBoard.GetNumberOfRows() * .5; i++)
         {
+            gameBoard.AddOccupant(occupantPool.GetRandomOccupant(), 4, i);
+        }
+        for (int i = 0; i < gameBoard.GetNumberOfRows() * .5; i++)
+        {
             gameBoard.AddOccupant(occupantPool.GetRandomOccupant(), 5, i);
+        }
+        for (int i = 0; i < gameBoard.GetNumberOfRows() * .5; i++)
+        {
+            gameBoard.AddOccupant(occupantPool.GetRandomOccupant(), 6, i);
         }
 
         //Require only 1 match to destroy bubbles to make it easier for testing
         DestroyMatchingOccupants modifier = gameObject.GetComponent<DestroyMatchingOccupants>();
         if (modifier != null)
         {
-            modifier.AmountOfMatchesForDestruction = 1;
+            //modifier.AmountOfMatchesForDestruction = 1;
         }
     }
 }
