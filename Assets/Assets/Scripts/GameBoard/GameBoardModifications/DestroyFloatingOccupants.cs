@@ -39,7 +39,7 @@ public class DestroyFloatingOccupants : AbstractGameBoardModifier, IGameBoardMod
         }
 
         //Get a list of all occupants and remove all anchored occupants from that list, leaving only the unanchored occupants
-        List<IGridOccupant> unanchoredOccupants = gameBoard.GetAllOccupants();
+        List<IGridOccupant> unanchoredOccupants = gameBoard.GetAllValidOccupants();
         for (int ii = unanchoredOccupants.Count - 1; ii >= 0; ii--)
         {
             IGridOccupant occupant = unanchoredOccupants[ii];

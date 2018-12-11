@@ -123,6 +123,24 @@ public class GameManager : MonoBehaviour
         }
         m_StateStack.Add(state);
     }
+
+    public void EndGame(EndGameParameters parameters)
+    {
+        GameStatusText.instance.SetText(parameters.message);
+        SwitchState("EndGameState");
+    }
+}
+
+public class EndGameParameters
+{
+    public string message;
+    public Object source;
+
+    public EndGameParameters(Object source, string message)
+    {
+        this.message = message;
+        this.source = source;
+    }
 }
 
 public abstract class AState : MonoBehaviour

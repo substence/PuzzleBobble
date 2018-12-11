@@ -7,6 +7,7 @@ public class GameBoard : MonoBehaviour
 {
     public event Action<IGridOccupant> AddedOccupant;
     public event Action<IGridOccupant> RemovedOccupant;
+    public event Action<int, int> PushedOccupant;
 
     [SerializeField]
     private static int WIDTH = 10;
@@ -57,7 +58,14 @@ public class GameBoard : MonoBehaviour
     //special method for moving things down so I can track if something is being pushed off the grid
     public bool PushDownOccupantAt(int x, int y)
     {
-        return MoveNodeFromTo(x,y, x, y+1);
+        int toX = x;
+        int toY = y+1;
+        bool moved = MoveNodeFromTo(x,y, toX, toY);
+        if (PushedOccupant != null)
+        {
+            PushedOccupant(toX, toY);
+        }
+        return moved;
     }
 
     public bool MoveNodeFromTo(int fromX, int fromY, int toX, int toY, bool doesReplaceExistingOccupant = false)
@@ -118,7 +126,7 @@ public class GameBoard : MonoBehaviour
         return grid[x,y];
     }
 
-    public List<IGridOccupant> GetAllOccupants()
+    public List<IGridOccupant> GetAllValidOccupants()
     {
         List<IGridOccupant> occupants = new List<IGridOccupant>();
 
@@ -126,7 +134,11 @@ public class GameBoard : MonoBehaviour
         {
             for (int j = 0; j < HEIGHT; j++)
             {
-                occupants.Add(GetOccupantAt(i, j));
+                IGridOccupant occupant = GetOccupantAt(i, j);
+                if (occupant != null)
+                {
+                    occupants.Add(occupant);
+                }
             }
         }
 

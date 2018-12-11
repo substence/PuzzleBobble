@@ -38,6 +38,11 @@ public class GridOccupant : IGridOccupant
         }
     }
 
+    public GridOccupant(GameObject graphicGO)
+    {
+        _graphicGO = graphicGO;
+    }
+
     public void Slotted(bool value, int x = 0, int y = 0)
     {
         _x = x;

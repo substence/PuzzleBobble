@@ -2,10 +2,18 @@
 
 public class GridOccupantTypePool : MonoBehaviour
 {
-    public GameObject graphicGO;
+    [SerializeField]
+    private GameObject unmatchableBubble;
+    [SerializeField]
+    private GameObject genericColoredBubble;
 
     public IGridOccupant GetRandomOccupant()
     {
-        return new ColoredBubble(graphicGO, ColoredBubble.GetRandomColor());
+        return new ColoredBubble(genericColoredBubble, ColoredBubble.GetRandomColor());
+    }
+
+    public IGridOccupant GetUnmatchableOccupant()
+    {
+        return new GridOccupant(unmatchableBubble);
     }
 }

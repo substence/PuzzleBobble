@@ -15,9 +15,9 @@ public class ColoredBubble : GridOccupant, IMatchableOccupant
     }
     public BubbleColors color = BubbleColors.INVALID;
 
-    public ColoredBubble(GameObject graphicGO, BubbleColors color = BubbleColors.INVALID)
+    public ColoredBubble(GameObject graphicGO, BubbleColors color = BubbleColors.INVALID) : 
+        base(graphicGO)
     {
-        _graphicGO = graphicGO;
         SetColor(color);
     }
 

@@ -4,7 +4,7 @@
 public class RowAdder : AbstractGameBoardModifier, IGameBoardModifier
 {
     [SerializeField]
-    private float delay = 10.0f;
+    private float delay = 5.0f;
     [SerializeField]
     private GameBoardQueue queue;
     [SerializeField]
@@ -22,7 +22,7 @@ public class RowAdder : AbstractGameBoardModifier, IGameBoardModifier
         {
             occupantPool = gameObject.GetComponent<GridOccupantTypePool>();
         }
-        lastTimeAdded = Time.time;
+        lastTimeAdded = Time.time - delay;
     }
 
     private void FixedUpdate()
@@ -39,7 +39,7 @@ public class RowAdder : AbstractGameBoardModifier, IGameBoardModifier
     {
         for (int i = 0; i < gameBoard.GetNumberOfCollumns(); i++)
         {
-            queue.AddToQueue(occupantPool.GetRandomOccupant());
+            queue.AddToQueue(occupantPool.GetUnmatchableOccupant());
         }
     }
 }

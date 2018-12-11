@@ -399,15 +399,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 653616719}
-  - component: {fileID: 653616718}
   - component: {fileID: 653616720}
   - component: {fileID: 653616724}
   - component: {fileID: 653616723}
-  - component: {fileID: 653616721}
   - component: {fileID: 653616722}
   - component: {fileID: 653616725}
   - component: {fileID: 653616726}
   - component: {fileID: 653616727}
+  - component: {fileID: 653616728}
+  - component: {fileID: 653616721}
   m_Layer: 0
   m_Name: GameBoard
   m_TagString: Untagged
@@ -415,17 +415,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!156049354 &653616718
-Grid:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 653616717}
-  m_Enabled: 1
-  m_CellSize: {x: 1, y: 1, z: 1}
-  m_CellGap: {x: 0, y: 0, z: 0}
-  m_CellLayout: 0
-  m_CellSwizzle: 0
 --- !u!4 &653616719
 Transform:
   m_ObjectHideFlags: 0
@@ -459,14 +448,13 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 653616717}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea27153168465d4384536755c76c59d, type: 3}
+  m_Script: {fileID: 11500000, guid: a9ca437fa7af8844bb1cb4e6a5f4a5d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gameBoard: {fileID: 653616720}
-  testGameObject: {fileID: 1768890407820484, guid: 8cf316b7d2697a64eb5184c037c58abb,
-    type: 2}
+  overflowThreshold: 0
 --- !u!114 &653616722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -478,14 +466,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 017606abf2e803f4b8e1c8b2c07757cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graphicGO: {fileID: 1768890407820484, guid: 8cf316b7d2697a64eb5184c037c58abb, type: 2}
+  unmatchableBubble: {fileID: 1768890407820484, guid: f72f1cdeda91b604798baf74e1cd5a28,
+    type: 2}
+  genericColoredBubble: {fileID: 1768890407820484, guid: 8cf316b7d2697a64eb5184c037c58abb,
+    type: 2}
 --- !u!114 &653616723
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 653616717}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e885e614759edaa4ebe81435cf21c92a, type: 3}
   m_Name: 
@@ -525,7 +516,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 653616717}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b6cdd6649e08ed439311fc8b8a7ed73, type: 3}
   m_Name: 
@@ -544,6 +535,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameBoard: {fileID: 653616720}
+--- !u!114 &653616728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 653616717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcc2d31a5501fa6409c37f8cd4cedf79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameBoard: {fileID: 653616720}
+  minOccupantThreshold: 0
 --- !u!1 &827327875
 GameObject:
   m_ObjectHideFlags: 0

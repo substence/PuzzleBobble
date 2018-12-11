@@ -4,10 +4,10 @@ public class GameBoardQueue : AbstractGameBoardModifier,IGameBoardModifier
 {
     private List<IGridOccupant> queue = new List<IGridOccupant>();
 
-    public void AddToQueue(List<IGridOccupant> occupants)
+    /*public void AddToQueue(List<IGridOccupant> occupants)
     {
         queue.AddRange(occupants);
-    }
+    }*/
 
     public void AddToQueue(IGridOccupant occupant)
     {
@@ -37,6 +37,7 @@ public class GameBoardQueue : AbstractGameBoardModifier,IGameBoardModifier
         {
             gameBoard.AddOccupant(queue[ii], ii, 0);
         }
+        //queue.RemoveRange(0, gameBoard.GetNumberOfCollumns());
         queue.Clear();
     }
 }
