@@ -10,10 +10,10 @@ public class DestroyFloatingOccupants : AbstractGameBoardModifier, IGameBoardMod
     void Start ()
     {
         //listen when any occupants is removed from the board.
-        gameBoard.RemovedOccupant += GameBoard_RemovedOccupant;
+        gameBoard.RemovedOccupants += GameBoard_RemovedOccupant;
 	}
 
-    private void GameBoard_RemovedOccupant(IGridOccupant obj)
+    private void GameBoard_RemovedOccupant(List<IGridOccupant> occupants)
     {
         RemoveFloatingOccupants(GetAllUnanchoredOccupants(gameBoard), gameBoard, DESTROY_DELAY);
     }
@@ -99,6 +99,6 @@ public class DestroyFloatingOccupants : AbstractGameBoardModifier, IGameBoardMod
 
     private void OnDestroy()
     {
-        gameBoard.RemovedOccupant -= GameBoard_RemovedOccupant;
+        gameBoard.RemovedOccupants -= GameBoard_RemovedOccupant;
     }
 }

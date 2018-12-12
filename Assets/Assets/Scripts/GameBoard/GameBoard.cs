@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class GameBoard : MonoBehaviour
 {
     public event Action<IGridOccupant> AddedOccupant;
-    public event Action<IGridOccupant> RemovedOccupant;
+    public event Action<List<IGridOccupant>> RemovedOccupants;
     public event Action<int, int> PushedOccupant;
 
     [SerializeField]
@@ -26,6 +25,7 @@ public class GameBoard : MonoBehaviour
     }
 
     private IGridOccupant[,] grid = new GridOccupant[WIDTH, HEIGHT];
+    private List<IGridOccupant> recentlyRemovedOccupants = new List<IGridOccupant>();
 
     public bool AddOccupant(IGridOccupant occupant, int x, int y, bool doesReplaceExistingOccupant = false)
     {
@@ -98,12 +98,9 @@ public class GameBoard : MonoBehaviour
             {
                 existingOccupant.graphic.transform.SetParent(null);
             }
+            recentlyRemovedOccupants.Add(existingOccupant);
         }
         grid[x, y] = null;
-        if (existingOccupant != null && RemovedOccupant != null)
-        {
-            RemovedOccupant(existingOccupant);
-        }
     }
 
     private bool IsIndexOutOfBounds(int x, int y)
@@ -143,6 +140,21 @@ public class GameBoard : MonoBehaviour
         }
 
         return occupants;
+    }
+
+    private void Update()
+    {
+        AnnounceRemovedOccupants();
+    }
+    
+    //At the end of every frame, announce all the occupants that were removed this frame
+    private void AnnounceRemovedOccupants()
+    {
+        if (recentlyRemovedOccupants.Count > 0 && RemovedOccupants != null)
+        {
+            RemovedOccupants(recentlyRemovedOccupants);
+            recentlyRemovedOccupants.Clear();
+        }
     }
 
     public int GetNumberOfRows(){ return WIDTH; }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class WinGameWhenOccupantCountIsBelowThreshold : AbstractGameBoardModifier, IGameBoardModifier
 {
@@ -8,10 +9,10 @@ public class WinGameWhenOccupantCountIsBelowThreshold : AbstractGameBoardModifie
     void Start ()
     {        
         //listen when any occupants is removed from the board.
-        gameBoard.RemovedOccupant += GameBoard_RemovedOccupant;
+        gameBoard.RemovedOccupants += GameBoard_RemovedOccupant;
 	}
 
-    private void GameBoard_RemovedOccupant(IGridOccupant obj)
+    private void GameBoard_RemovedOccupant(List<IGridOccupant> occupants)
     {
         if (gameBoard.GetAllValidOccupants().Count <= minOccupantThreshold)
         {
@@ -21,6 +22,6 @@ public class WinGameWhenOccupantCountIsBelowThreshold : AbstractGameBoardModifie
 
     private void OnDestroy()
     {
-        gameBoard.RemovedOccupant -= GameBoard_RemovedOccupant;
+        gameBoard.RemovedOccupants -= GameBoard_RemovedOccupant;
     }
 }
