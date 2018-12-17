@@ -13,7 +13,7 @@ public class EndGameWhenOverflowing : AbstractGameBoardModifier , IGameBoardModi
 
     private void GameBoard_PushedOccupant(int toX, int toY)
     {
-       if ((toX + overflowThreshold) >= gameBoard.GetNumberOfRows())
+       if ((toY + overflowThreshold) >= gameBoard.GetNumberOfRows())
         {
             GameManager.instance.EndGame(new EndGameParameters(this, "Game Over!"));
         }

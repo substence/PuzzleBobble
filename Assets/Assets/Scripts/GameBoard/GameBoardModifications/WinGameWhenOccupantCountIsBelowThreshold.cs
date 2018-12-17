@@ -14,9 +14,19 @@ public class WinGameWhenOccupantCountIsBelowThreshold : AbstractGameBoardModifie
 
     private void GameBoard_RemovedOccupant(List<IGridOccupant> occupants)
     {
-        if (gameBoard.GetAllValidOccupants().Count <= minOccupantThreshold)
+        List<IGridOccupant> allOccupants = gameBoard.GetAllValidOccupants();
+        int sum = 0;
+        for (int i = 0; i < allOccupants.Count; i++)
         {
-            GameManager.instance.EndGame(new EndGameParameters(this, "You win! Board Clear"));
+            IGridOccupant occupant = allOccupants[i];
+            if (occupant is IMatchableOccupant)
+            {
+                sum++;
+            }
+        }
+        if (sum <= minOccupantThreshold)
+        {
+            //GameManager.instance.EndGame(new EndGameParameters(this, "You win! Board Clear"));
         }
     }
 

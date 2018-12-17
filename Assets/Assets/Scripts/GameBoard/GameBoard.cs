@@ -9,7 +9,7 @@ public class GameBoard : MonoBehaviour
     public event Action<int, int> PushedOccupant;
 
     [SerializeField]
-    private static int WIDTH = 10;
+    private static int WIDTH = 8;
     [SerializeField]
     private static int HEIGHT = 10;
     [SerializeField]
@@ -30,12 +30,13 @@ public class GameBoard : MonoBehaviour
     public bool AddOccupant(IGridOccupant occupant, int x, int y, bool doesReplaceExistingOccupant = false)
     {
         IGridOccupant existingOccupant = GetOccupantAt(x, y);
-        if (existingOccupant != null && !doesReplaceExistingOccupant)
+        if ((existingOccupant != null && !doesReplaceExistingOccupant) || IsIndexOutOfBounds(x, y))
         {
             return false;
         }
         RemoveOccupantAt(x, y);
         grid[x, y] = occupant;
+        //Debug.Log("moving to y " + y);
         occupant.Slotted(true, x, y);
         occupant.graphic.transform.SetParent(transform);
         Vector3 localPosition = GetLocalPositionAt(x, y);
@@ -67,6 +68,25 @@ public class GameBoard : MonoBehaviour
         }
         return moved;
     }
+
+    /*public bool PushDownOccupant(IGridOccupant occupant)
+    {
+        if (occupant == null)
+        {
+            return false;
+        }
+        int x = occupant.x;
+        int y = occupant.y;
+        int toX = x;
+        int toY = y + 1;
+        Debug.Log("moving " + occupant + " from " + y + " to " + toY);
+        bool moved = MoveNodeFromTo(x, y, toX, toY);
+        if (PushedOccupant != null)
+        {
+            PushedOccupant(toX, toY);
+        }
+        return moved;
+    }*/
 
     public bool MoveNodeFromTo(int fromX, int fromY, int toX, int toY, bool doesReplaceExistingOccupant = false)
     {

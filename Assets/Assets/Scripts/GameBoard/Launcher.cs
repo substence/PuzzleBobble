@@ -1,15 +1,25 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Launcher : MonoBehaviour
 {
+    enum ControlScheme
+    {
+        MOUSE,
+        KEYBOARD
+    }
     [SerializeField]
     private GridOccupantTypePool pool;
     [SerializeField]
     private GameBoard gameBoard;
     [SerializeField]
     private const float force = 1000.0f;
+    [SerializeField]
+    private ControlScheme scheme = ControlScheme.KEYBOARD;
 
     private GameObject launchee;
+    private static float ROTATION_ANGLE_LIMIT = 45;    
+    private static float ROTATION_SPEED = 1;
 
     void Start()
     {
@@ -31,19 +41,73 @@ public class Launcher : MonoBehaviour
     // Update is called once per frame
     void Update ()
     {
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition.z = 10;
-        //Debug.Log("raw mouse position " + mousePosition);
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-        //Debug.Log("converted mouse position " + mousePosition);
-        Vector2 direction = new Vector2(mousePosition.x - transform.position.x, 
-                                        mousePosition.y - transform.position.y);
-        transform.up = direction;
-	    if (Input.GetButtonUp("Fire1"))
+        switch (scheme)
+        {
+            case ControlScheme.MOUSE:
+                UpdateMouse();
+                break;
+            case ControlScheme.KEYBOARD:
+                UpdateKeyboard();
+                break;
+        }
+    }
+
+    private void UpdateKeyboard()
+    {
+        //direction
+        float lowerBound = ROTATION_ANGLE_LIMIT;
+        float upperBound = 360 - ROTATION_ANGLE_LIMIT;
+
+        float direction = Input.GetAxisRaw("Horizontal");
+        if (direction != 0)
+        { 
+            direction = Mathf.Round(direction) * -1;
+            float amountToRotate = direction * ROTATION_SPEED;
+
+            //clamp rotation
+            Vector3 currentRotation = transform.localRotation.eulerAngles;
+            currentRotation.z += amountToRotate;
+            Debug.Log(currentRotation.z);
+            //check if rotation is out of bounds
+            if (currentRotation.z > lowerBound && currentRotation.z < upperBound)
+            {
+                //snap to closest bound
+                if (Math.Abs(currentRotation.z - lowerBound) > Math.Abs(currentRotation.z - upperBound))
+                {
+                    currentRotation.z = upperBound;
+                }
+                else
+                {
+                    currentRotation.z = lowerBound;
+                }
+            }
+            //currentRotation.z = Mathf.Max(currentRotation.z, ROTATION_ANGLE_LIMIT);
+            //currentRotation.z = Mathf.Min(currentRotation.z, ROTATION_ANGLE_LIMIT);
+
+            //currentRotation.z = Mathf.Clamp(currentRotation.z, -ROTATION_ANGLE_LIMIT, ROTATION_ANGLE_LIMIT);
+            transform.localRotation = Quaternion.Euler(currentRotation);
+        }
+
+        //fire
+        if (Input.GetButtonUp("Fire1") || Input.GetButtonUp("Jump"))
         {
             Fire();
         }
-	}
+    }
+
+    private void UpdateMouse()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = 10;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector2 direction = new Vector2(mousePosition.x - transform.position.x,
+                                        mousePosition.y - transform.position.y);
+        transform.up = direction;
+        if (Input.GetButtonUp("Fire1"))
+        {
+            Fire();
+        }
+    }
 
     void Fire()
     {

@@ -26,11 +26,15 @@ public class GameBoardQueue : AbstractGameBoardModifier,IGameBoardModifier
     private void InjectRowFromQueueIntoBoard()
     {
         //move everything down
+        //List < IGridOccupant > allOccupants = gameBoard.GetAllValidOccupants();
         for (int i = gameBoard.GetNumberOfCollumns() - 1; i >= 0; i--)
         {
             for (int j = gameBoard.GetNumberOfRows() - 1; j >= 0; j--)
             {
-                gameBoard.PushDownOccupantAt(j, i);
+                if (gameBoard.GetOccupantAt(j, i) != null)
+                {
+                    gameBoard.PushDownOccupantAt(j, i);
+                }
             }
         }
         for (int ii = 0; ii < gameBoard.GetNumberOfCollumns(); ii++)
